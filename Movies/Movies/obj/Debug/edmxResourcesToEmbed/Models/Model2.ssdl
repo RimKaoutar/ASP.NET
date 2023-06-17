@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="examModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="acteur">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nom" Type="varchar(max)" />
+    <Property Name="prenom" Type="varchar(max)" />
+    <Property Name="photo" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="libelle" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="film">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nom" Type="varchar(max)" />
+    <Property Name="des" Type="varchar(max)" />
+    <Property Name="photo" Type="varchar(max)" />
+    <Property Name="cateId" Type="int" />
+  </EntityType>
+  <EntityType Name="fim_acteur">
+    <Key>
+      <PropertyRef Name="idFilm" />
+      <PropertyRef Name="idActeur" />
+    </Key>
+    <Property Name="idFilm" Type="int" Nullable="false" />
+    <Property Name="idActeur" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'exam.dbo.user' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="login" Type="varchar(max)" />
+    <Property Name="pwd" Type="varchar(max)" />
+  </EntityType>
+  <Association Name="FK_film_category">
+    <End Role="category" Type="Self.category" Multiplicity="0..1" />
+    <End Role="film" Type="Self.film" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="category">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="film">
+        <PropertyRef Name="cateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_fim_acteur_acteur">
+    <End Role="acteur" Type="Self.acteur" Multiplicity="1" />
+    <End Role="fim_acteur" Type="Self.fim_acteur" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="acteur">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="fim_acteur">
+        <PropertyRef Name="idActeur" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_fim_acteur_film">
+    <End Role="film" Type="Self.film" Multiplicity="1" />
+    <End Role="fim_acteur" Type="Self.fim_acteur" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="film">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="fim_acteur">
+        <PropertyRef Name="idFilm" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="examModel1StoreContainer">
+    <EntitySet Name="acteur" EntityType="Self.acteur" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="category" EntityType="Self.category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="film" EntityType="Self.film" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="fim_acteur" EntityType="Self.fim_acteur" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="user" EntityType="Self.user" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [user].[id] AS [id], 
+    [user].[login] AS [login], 
+    [user].[pwd] AS [pwd]
+    FROM [dbo].[user] AS [user]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_film_category" Association="Self.FK_film_category">
+      <End Role="category" EntitySet="category" />
+      <End Role="film" EntitySet="film" />
+    </AssociationSet>
+    <AssociationSet Name="FK_fim_acteur_acteur" Association="Self.FK_fim_acteur_acteur">
+      <End Role="acteur" EntitySet="acteur" />
+      <End Role="fim_acteur" EntitySet="fim_acteur" />
+    </AssociationSet>
+    <AssociationSet Name="FK_fim_acteur_film" Association="Self.FK_fim_acteur_film">
+      <End Role="film" EntitySet="film" />
+      <End Role="fim_acteur" EntitySet="fim_acteur" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

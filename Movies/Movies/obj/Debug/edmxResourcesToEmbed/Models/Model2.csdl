@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="examModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="acteur">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nom" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="prenom" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="film" Relationship="Self.fim_acteur" FromRole="acteur" ToRole="film" />
+  </EntityType>
+  <EntityType Name="category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="libelle" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="film" Relationship="Self.FK_film_category" FromRole="category" ToRole="film" />
+  </EntityType>
+  <EntityType Name="film">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nom" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="des" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="cateId" Type="Int32" />
+    <NavigationProperty Name="category" Relationship="Self.FK_film_category" FromRole="film" ToRole="category" />
+    <NavigationProperty Name="acteur" Relationship="Self.fim_acteur" FromRole="film" ToRole="acteur" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="login" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="pwd" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_film_category">
+    <End Role="category" Type="Self.category" Multiplicity="0..1" />
+    <End Role="film" Type="Self.film" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="category">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="film">
+        <PropertyRef Name="cateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fim_acteur">
+    <End Role="acteur" Type="Self.acteur" Multiplicity="*" />
+    <End Role="film" Type="Self.film" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="examEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="acteur" EntityType="Self.acteur" />
+    <EntitySet Name="category" EntityType="Self.category" />
+    <EntitySet Name="film" EntityType="Self.film" />
+    <EntitySet Name="user" EntityType="Self.user" />
+    <AssociationSet Name="FK_film_category" Association="Self.FK_film_category">
+      <End Role="category" EntitySet="category" />
+      <End Role="film" EntitySet="film" />
+    </AssociationSet>
+    <AssociationSet Name="fim_acteur" Association="Self.fim_acteur">
+      <End Role="acteur" EntitySet="acteur" />
+      <End Role="film" EntitySet="film" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+
+@model Movies.Models.user
+
+<form method="post" action="@Url.Action("checkUser","authen")">
+    <label>Login</label>
+    @Html.TextBoxFor(o => o.login);<br />
+    <label>Mot de passe</label>
+    @Html.TextBoxFor(o => o.pwd);<br />
+    <button type="submit">OK</button>
+
+</form>
+

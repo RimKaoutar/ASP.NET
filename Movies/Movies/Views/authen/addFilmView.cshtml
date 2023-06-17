@@ -1,0 +1,45 @@
+﻿@model Movies.Models.film
+@{
+    ViewBag.Title = "addFilmView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>addFilmView</h2>
+
+<form id="formProduit" name="formProduit" action="@Url.Action("addFilm","authen")" method="POST" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                <label>CATEGORIE</label>
+                <select type="text" id="cateId" name="cateId" class="form-control">
+                    @foreach (var data in ViewBag.film)
+                    {
+                        <option value="@data.cateId">@data.category.libelle</option>
+                    }
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label>NOM *</label>
+                <input type="text" id="nom" name="nom" class="form-control" required />
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                <label>DESCRIPTION</label>
+                <textarea id="des" name="des" class="form-control" ></textarea>
+            </div>
+            <div class="form-group">
+                <label>IMAGE PRODUIT</label>
+                <input type="file" id="image" name="image" class="form-control" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+            <input type="submit" id="enregistrer" name="enregistrer" value="enregistrer" class="btn btn-primary" />
+            <a href="~/authen/list" class="btn btn-default">Anuller</a>
+    </div>
+</form>
+
+<hr />

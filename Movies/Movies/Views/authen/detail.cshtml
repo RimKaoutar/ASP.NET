@@ -1,0 +1,34 @@
+﻿<hr />
+@foreach (var data in ViewBag.film)
+{
+    <div class="row col-xs-12">
+        <div class="col-xs-12 col-sm-6">
+            <div style="float:left"><img src="~/Images/@data.photo" width="100" height="100" /></div>
+            <div>@data.nom</div>
+            <div>@data.des</div>
+            <div><a href="~/authen/detail?id=@data.id" class="btn bg-warning">Voir Details</a></div>
+        </div>
+        <div class="col-xs-12 col-sm-3">
+            <div id="mydetail">
+                @foreach (var acteur in Viewbag.acteur)
+                {
+                    if (data.film_acteur.id_acteur == acteur.id)
+                    {
+                        <div class="col-xs-12 col-sm-4">
+                            <div><img src="Images/@acteur.image_produit" width="100" height="100" /></div>
+                            <div>@acteur.nom</div>
+                        </div>
+                    }
+
+                }
+            </div>
+        </div>
+
+
+        }
+            
+    </div>
+    <hr />
+
+
+}
